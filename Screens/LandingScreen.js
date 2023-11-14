@@ -10,22 +10,18 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Lottie from "lottie-react-native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LoginScreen from "./LoginScreen";
-import SignUpScreen from "./SignUpScreen";
 import { useNavigation } from "@react-navigation/native";
-import { removeItem } from "../Utils/AsyncStorage";
+// import { removeItem } from "../Utils/AsyncStorage";
 
 const { width, height } = Dimensions.get("window");
-// const Stack = createNativeStackNavigator();
 
 const LandingScreen = () => {
   const navigation = useNavigation();
 
-  const handleReset = async () => {
-    await removeItem("onBoarded");
-    navigation.push("Onboarding");
-  };
+  // const handleReset = async () => {
+  //   await removeItem("onBoarded");
+  //   navigation.push("Onboarding");
+  // };
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -46,12 +42,12 @@ const LandingScreen = () => {
           loop
         />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+      <TouchableOpacity onPress={() => navigation.push("Signup")}>
         <View style={styles.button}>
           <Text style={styles.text}>Sign Up</Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <TouchableOpacity onPress={() => navigation.push("Login")}>
         <View style={styles.button}>
           <Text style={styles.text}>Log In</Text>
         </View>

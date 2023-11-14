@@ -7,14 +7,14 @@ import OnboardingScreen from "../Screens/OnboardingScreen";
 import { getItem } from "../Utils/AsyncStorage";
 import LoginScreen from "../Screens/LoginScreen";
 import SignUpScreen from "../Screens/SignUpScreen";
-
+import HomeScreen from "../Screens/HomeScreen";
+import { FirebaseContextProvider } from "../firebase/firebaseContext";
+import { AppContextProvider } from "../context/contextApi";
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
   const [showOnboarding, setShowOnboarding] = useState(null);
-  useEffect(() => {
-    checkIfAlreadyOnboarding();
-  });
+
   const checkIfAlreadyOnboarding = async () => {
     let onBoarded = await getItem("onBoarded");
     if (onBoarded == 1) {
@@ -24,82 +24,89 @@ export default function AppNavigation() {
     }
   };
 
+  useEffect(() => {
+    checkIfAlreadyOnboarding();
+  });
+
+
   if (showOnboarding == null) {
-    return null;
+
   }
-  // return (
-  //   <NavigationContainer>
-  //         <Stack.Navigator initialRouteName='Onboarding'>
-  //         <Stack.Screen
-  //             name='Onboarding'
-  //             options={{headerShown: false}}
-  //             component={OnboardingScreen}
-  //           />
-  //           <Stack.Screen
-  //             name='Landing Page'
-  //             options={{headerShown: false}}
-  //             component={LandingScreen}
-  //           />
-  //           <Stack.Screen
-  //             name='Login'
-  //             options={{headerShown: false}}
-  //             component={LoginScreen}
-  //           />
-  //       </Stack.Navigator>
-  //       </NavigationContainer>
-  // )
-  if (showOnboarding) {
+
+  else if (showOnboarding) {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Onboarding">
-          <Stack.Screen
-            name="Onboarding"
-            options={{ headerShown: false }}
-            component={OnboardingScreen}
-          />
-          <Stack.Screen
-            name="Landing Page"
-            options={{ headerShown: false }}
-            component={LandingScreen}
-          />
-          <Stack.Screen
-            name="Login"
-            options={{ headerShown: false }}
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name="Signup"
-            options={{ headerShown: false }}
-            component={SignUpScreen}
-          />
-        </Stack.Navigator>
+        <AppContextProvider>
+          <FirebaseContextProvider>
+            <Stack.Navigator initialRouteName="Onboarding">
+              <Stack.Screen
+                name="Onboarding"
+                options={{ headerShown: false }}
+                component={OnboardingScreen}
+              />
+              <Stack.Screen
+                name="Landing Page"
+                options={{ headerShown: false }}
+                component={LandingScreen}
+              />
+              <Stack.Screen
+                name="Login"
+                options={{ headerShown: false }}
+                component={LoginScreen}
+              />
+              <Stack.Screen
+                name="Signup"
+                options={{ headerShown: false }}
+                component={SignUpScreen}
+              />
+              <Stack.Screen
+                name="Home"
+                options={{ headerShown: false }}
+                component={HomeScreen}
+              />
+
+            </Stack.Navigator>
+          </FirebaseContextProvider>
+        </AppContextProvider>
       </NavigationContainer>
     );
   } else {
+
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Landing Page">
-          <Stack.Screen
-            name="Onboarding"
-            options={{ headerShown: false }}
-            component={OnboardingScreen}
-          />
-          <Stack.Screen
-            name="Landing Page"
-            options={{ headerShown: false }}
-            component={LandingScreen}
-          />
-          <Stack.Screen
-            name="Login"
-            options={{ headerShown: false }}
-            component={LoginScreen}
-          />
-          <Stack.Screen
-            name="Signup"
-            options={{ headerShown: false }}
-            component={SignUpScreen}
-          />
-        </Stack.Navigator>
+        <AppContextProvider>
+          <FirebaseContextProvider>
+            <Stack.Navigator initialRouteName="Landing Page">
+              <Stack.Screen
+                name="Onboarding"
+                options={{ headerShown: false }}
+                component={OnboardingScreen}
+              />
+              <Stack.Screen
+                name="Landing Page"
+                options={{ headerShown: false }}
+                component={LandingScreen}
+              />
+              <Stack.Screen
+                name="Login"
+                options={{ headerShown: false }}
+                component={LoginScreen}
+              />
+              <Stack.Screen
+                name="Signup"
+                options={{ headerShown: false }}
+                component={SignUpScreen}
+              />
+
+              <Stack.Screen
+                name="Home"
+                options={{ headerShown: false }}
+                component={HomeScreen}
+              />
+
+            </Stack.Navigator>
+          </FirebaseContextProvider>
+        </AppContextProvider>
       </NavigationContainer>
     );
   }
