@@ -8,12 +8,11 @@ import {
   Dimensions,
   SafeAreaView,
   ActivityIndicator,
-  ScrollView
-
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
+import { useNavigation, useScrollToTop} from "@react-navigation/native";
 import Animated, {
   FadeIn,
   FadeInDown,
@@ -26,8 +25,6 @@ import { isEmailValid, isStrongPassword } from "../Utils/Validation";
 const { width, height } = Dimensions.get("window");
 
 export default function LoginScreen() {
-
-
   const [passwordVisible, setPasswordVisible] = React.useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,33 +34,30 @@ export default function LoginScreen() {
   const [isErrorVisible, setIsErrorVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+ 
+
   const navigation = useNavigation();
   const { loginWithEmailPassword, signInWithGoogle } = useFirebaseContext();
 
-
-
   const handleLogin = async () => {
-
     let flag = 0;
     if (!email) {
       setEmailError("*Email cannot be empty");
       flag = 1;
-    } else if (!(isEmailValid(email.trim()))) {
+    } else if (!isEmailValid(email.trim())) {
       setEmailError("*Please enter a valid email");
       flag = 1;
     } else {
       setEmailError("");
     }
 
-
     if (!password) {
       setPasswordError("*Password cannot be empty");
       flag = 1;
-    } else if (!(isStrongPassword(password))) {
+    } else if (!isStrongPassword(password)) {
       setPasswordError("Password must contain atleast 6 characters");
       flag = 1;
-    }
-    else {
+    } else {
       setPasswordError("");
     }
 
@@ -71,20 +65,17 @@ export default function LoginScreen() {
       return;
     }
 
-
     try {
-      setLoader(true)
+      setLoader(true);
       await loginWithEmailPassword(email.trim(), password);
-      setLoader(false)
-      navigation.navigate("Home")
+      setLoader(false);
+      navigation.navigate("Home");
     } catch (error) {
-      setLoader(false)
-      setErrorMessage("Invalid email and password")
-      setIsErrorVisible(true)
-
+      setLoader(false);
+      setErrorMessage("Invalid email and password");
+      setIsErrorVisible(true);
     }
-
-
+   
   };
 
   return (
@@ -116,12 +107,7 @@ export default function LoginScreen() {
             Login
           </Animated.Text>
 
-
-
-
           <View style={{ alignItems: "center", marginHorizontal: 25, gap: 5 }}>
-
-           
             <Animated.View
               entering={FadeInDown.delay(200).duration(1000).springify()}
               style={{
@@ -201,7 +187,9 @@ export default function LoginScreen() {
             </Text>
 
             <View className="ml-auto">
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.push("Forgot Password")}
+              >
                 <Animated.Text
                   entering={FadeIn.delay(600).duration(1000).springify()}
                   style={{
@@ -243,10 +231,10 @@ export default function LoginScreen() {
                     }}
                   >
                     Login
-                  </Text>)}
+                  </Text>
+                )}
               </TouchableOpacity>
             </Animated.View>
-           
 
             <Animated.View
               entering={FadeIn.delay(400).duration(1000).springify()}
@@ -274,13 +262,7 @@ export default function LoginScreen() {
                 }}
               />
             </Animated.View>
-
           </View>
-
-
-
-
-
 
           {/* This is to add sign in with google and facebook icons  */}
           <Animated.View
@@ -290,7 +272,8 @@ export default function LoginScreen() {
               justifyContent: "center",
             }}
           >
-            <TouchableOpacity onPress={signInWithGoogle}
+            <TouchableOpacity
+             
               style={{
                 flex: 1,
                 alignItems: "center",
@@ -302,7 +285,7 @@ export default function LoginScreen() {
                 marginHorizontal: 25,
                 borderRadius: 10,
                 marginBottom: 35,
-                marginTop:18
+                marginTop: 18,
               }}
             >
               <Image
@@ -319,24 +302,25 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </Animated.View>
 
-          <Animated.View style={{marginBottom:8}}
-              entering={FadeIn.delay(800).duration(1000).springify()}
-              className="flex-row justify-center"
-            >
-              <Text>Don't have an account?</Text>
-              <TouchableOpacity onPress={() => navigation.push("Signup")}>
-                <Text className="text-[#69ADC6]"> SignUp</Text>
-              </TouchableOpacity>
-            </Animated.View>
-
+          <Animated.View
+            style={{ marginBottom: 8 }}
+            entering={FadeIn.delay(800).duration(1000).springify()}
+            className="flex-row justify-center"
+          >
+            <Text>Don't have an account?</Text>
+            <TouchableOpacity onPress={() => navigation.push("Signup")}>
+              <Text className="text-[#69ADC6]"> SignUp</Text>
+            </TouchableOpacity>
+          </Animated.View>
         </View>
 
         <ErrorPopup
           isVisible={isErrorVisible}
           errorMessage={errorMessage}
-          onClose={() => { setIsErrorVisible(false) }}
+          onClose={() => {
+            setIsErrorVisible(false);
+          }}
         ></ErrorPopup>
-
       </SafeAreaView>
     </ScrollView>
   );
@@ -345,7 +329,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   topContainer: {
     backgroundColor: "white",
-    height: "full",
+    height: height * 1.11,
     width: "full",
   },
   background: {
@@ -366,11 +350,10 @@ const styles = StyleSheet.create({
     width: width,
     paddingTop: "58%",
     paddingBottom: 10,
-   
   },
   heading: {
     marginBottom: 20,
-    marginTop:10,
+    marginTop: 10,
     textAlign: "center",
     color: "#23286A",
     fontWeight: "bold",

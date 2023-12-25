@@ -1,0 +1,431 @@
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions,
+  TextInput,
+  FlatList,
+  ScrollView,
+} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
+import { useFirebaseContext } from "../firebase/firebaseContext";
+import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+const { width, height } = Dimensions.get("window");
+
+export default function ProductsPage() {
+  const { currentUser, signOutUser } = useFirebaseContext();
+  const [likedItems, setLikedItems] = React.useState([]);
+  const navigation = useNavigation();
+
+  const handleLikeToggle = (id) => {
+    if (likedItems.includes(id)) {
+      setLikedItems(likedItems.filter((item) => item !== id));
+    } else {
+      setLikedItems([...likedItems, id]);
+    }
+  };
+
+  const productsData = [
+    {
+      id: "1",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "2",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "3",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "4",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "5",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "6",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "7",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "8",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "9",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+    {
+      id: "10",
+      image: require("../assets/HomeScreen/mensCorner.jpg"),
+      name: "Product Name",
+      PricePerDay: "Rs 900",
+      PricePerWeek: "Rs 1000",
+      PricePerMonth: "Rs 2000",
+    },
+  ];
+
+  const handleProductPress = (categoryId) => {
+    navigation.navigate("Product Details", { category: categoryId });
+  };
+
+  return (
+    <ScrollView
+      contentContainerStyle={styles.scrollContainer}
+      nestedScrollEnabled={true}
+    >
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="Dark" />
+        <View style={styles.topContainer}>
+          <TouchableOpacity
+            style={styles.BackiconContainer}
+            onPress={() => navigation.push("Sub Categories")}
+          >
+            <MaterialIcon
+              name="keyboard-arrow-left"
+              size={30}
+              color="#23286A"
+            />
+          </TouchableOpacity>
+          <Image
+            style={styles.logoImage}
+            source={require("../assets/LoginImages/BlueLogo.png")}
+          />
+
+          <TouchableOpacity style={styles.iconContainer}>
+            <Icon name="bell" size={23} color="#23286A" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.searchBars}>
+          <Text style={styles.heading}>Products Page</Text>
+          <View style={styles.locationBarContainer}>
+            <TextInput
+              style={styles.locationInput}
+              placeholder="Enter Location..."
+            />
+            <TouchableOpacity>
+              <MaterialIcon name="location-pin" size={25} color="#23286A" />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.searchBarContainer}>
+            <TextInput style={styles.searchInput} placeholder="Search..." />
+            <TouchableOpacity>
+              <Icon name="search" size={18} color="#23286A" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{ height: height * 0.08 }}>
+          <ScrollView
+            contentContainerStyle={styles.filtersContainer}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          >
+            <TouchableOpacity style={styles.filterItem}>
+              <Text style={styles.filterText}>Filter 1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterItem}>
+              <Text style={styles.filterText}>Filter 2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterItem}>
+              <Text style={styles.filterText}>Filter 3</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterItem}>
+              <Text style={styles.filterText}>Filter 4</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.filterItem}>
+              <Text style={styles.filterText}>Filter 5</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+        <ScrollView>
+          <FlatList
+            nestedScrollEnabled={true}
+            scrollEnabled={false}
+            numColumns={2}
+            data={productsData}
+            renderItem={({ item }) => (
+              <View style={styles.productCard}>
+                <TouchableOpacity style={styles.categoryItem} onPress={() => handleProductPress(item.id)}>
+                  <Image source={item.image} style={styles.categoryImage} />
+                  <View style={styles.categoryNameContainer}>
+                    <Text style={styles.categoryName}>{item.name}</Text>
+                    <TouchableOpacity
+                      style={[styles.heartIcon, { marginLeft: -5 }]}
+                      onPress={() => handleLikeToggle(item.id)}
+                    >
+                      {likedItems.includes(item.id) ? (
+                        <Icon name="heart" size={18} color="red" />
+                      ) : (
+                        <Icon name="heart-o" size={18} color="grey" />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+
+                  {/* </View> */}
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={styles.PricePerDayLabel}>Price Per Day: </Text>
+                    <Text style={styles.PricePerDayValue}>
+                      {item.PricePerDay}
+                    </Text>
+                  </View>
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={styles.PricePerWeekLabel}>
+                      Price Per Week:{" "}
+                    </Text>
+                    <Text style={styles.PricePerWeekValue}>
+                      {item.PricePerWeek}
+                    </Text>
+                  </View>
+
+                  <View style={{ flexDirection: "row" }}>
+                    <Text style={styles.PricePerMonthLabel}>
+                      Price Per Month:{" "}
+                    </Text>
+                    <Text style={styles.PricePerMonthValue}>
+                      {item.PricePerMonth}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.categoriesList}
+          />
+        </ScrollView>
+      </SafeAreaView>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: "center",
+    flex: 1,
+    // justifyContent: "flex-start",
+  },
+  filtersContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+    paddingHorizontal: 10,
+    height: height * 0.06,
+  },
+  filterItem: {
+    borderColor: "#23286A",
+    borderWidth: 1,
+    paddingHorizontal: 10, // Adjust horizontal padding as needed
+    paddingVertical: 6, // Adjust vertical padding as needed
+    borderRadius: 10,
+    marginRight: 10,
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  filterText: {
+    fontSize: 14,
+    color: "#23286A",
+    // marginBottom: -490
+  },
+  topContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  heading: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#23286A",
+    marginBottom: 15,
+  },
+  logoImage: {
+    height: height * 0.5,
+    width: width * 0.5,
+    marginTop: -110,
+  },
+  iconContainer: {
+    position: "absolute",
+    top: 47,
+    right: -75,
+  },
+  BackiconContainer: {
+    position: "absolute",
+    top: 44,
+    left: -83,
+  },
+  searchBars: {
+    alignItems: "center",
+    marginTop: -140,
+  },
+  searchBarContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 5,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: 8,
+    width: width * 0.95,
+  },
+  searchInput: {
+    flex: 1,
+    height: 40,
+  },
+  locationBarContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "grey",
+    borderRadius: 8,
+    width: width * 0.95,
+  },
+  locationInput: {
+    flex: 1,
+    height: 40,
+  },
+
+  categories: {
+    marginTop: 5,
+    alignItems: "left",
+  },
+  categoriesList: {
+    alignItems: "center",
+    // marginHorizontal: 20,
+    paddingHorizontal: 15,
+  },
+  categoryItem: {
+    alignItems: "flex-start", // Aligns text to the left
+    justifyContent: "flex-end",
+    // textAlign: "center",
+    // marginVertical: 5,
+    width: width * 0.45,
+    // marginRight: 20,
+    // marginLeft: 10,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    alignItems: "center",
+    paddingBottom: 20,
+  },
+  categoryImage: {
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: 10,
+  },
+  categoryNameContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 15,
+    marginTop: 5,
+  },
+  categoryName: {
+    flex: 1,
+    marginRight: 25,
+    textAlign: "left",
+    alignItems: "flex-start",
+    marginTop: 5,
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#23286A",
+  },
+  heartIcon: {
+    marginLeft: -25,
+    marginTop: 5,
+  },
+  PricePerWeekLabel: {
+    fontWeight: "bold",
+    color: "#23286A",
+    fontSize: 11,
+  },
+  PricePerWeekValue: {
+    color: "grey",
+    fontSize: 11,
+  },
+  PricePerMonthLabel: {
+    fontWeight: "bold",
+    color: "#23286A",
+    fontSize: 11,
+  },
+  PricePerMonthValue: {
+    color: "grey",
+    fontSize: 11,
+  },
+  PricePerDayLabel: {
+    fontWeight: "bold",
+    color: "#23286A",
+    fontSize: 11,
+  },
+  PricePerDayValue: {
+    color: "grey",
+    fontSize: 11,
+  },
+  productCard: {
+    backgroundColor: "#e6e6e8",
+    borderRadius: 10,
+    marginBottom: 10,
+    padding: 10,
+    width: width * 0.46, // Adjust width as needed
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  logoutButton: {
+    backgroundColor: "#FF6347",
+    padding: 10,
+    borderRadius: 8,
+  },
+  logoutButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+});
